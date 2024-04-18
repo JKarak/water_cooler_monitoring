@@ -1,0 +1,21 @@
+services:
+  mqtt5:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt5
+    ports:
+      - "1883:1883"
+      - "8083:8083"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config:rw
+      - ./mosquitto/data:/mosquitto/data:rw
+      - ./mosquitto/log:/mosquitto/log:rw
+    restart: unless-stopped
+
+  mqttx-web:
+    image: emqx/mqttx-web:latest
+    container_name: mqttx-web
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    depends_on:
+      - mqtt5

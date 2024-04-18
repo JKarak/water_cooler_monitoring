@@ -1,0 +1,4 @@
+.venv/
+.micropy/
+.vscode/
+__pycache__/

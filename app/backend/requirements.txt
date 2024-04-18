@@ -1,0 +1,5 @@
+wheel
+pydantic
+fastapi[all]
+sse-starlette
+aiomqtt

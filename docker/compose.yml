@@ -1,0 +1,27 @@
+include:
+   - path: 
+       - compose.mqtt.yml
+
+services:
+  backend:
+    container_name: wcs_backend
+    build: ../app/backend
+    image: wcs/backend:latest
+    environment:
+        - MQTT_HOST=mqtt5
+        - MQTT_PORT=1883
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    depends_on:
+      - mqtt5
+
+  frontend:
+    container_name: wcs_frontend
+    build: ../app/frontend
+    image: wcs/frontend:latest
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
