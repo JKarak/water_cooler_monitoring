@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     mqtt_password: Optional[str] = ""
     mqtt_keepalive: int = 60
     mqtt_reconnect_timeout: int = 3
-    data_map: str = r"data/sensors_map.svg"
+    sensors_map: str = r"data/sensors_map.svg"
+    sensors_list: str = r"data/sensors_list.json"
 
     model_config = SettingsConfigDict(env_file=".env")

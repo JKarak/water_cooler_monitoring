@@ -2,20 +2,16 @@ from aiomqtt.types import PayloadType
 
 
 class SensorManager:
-    def __init__(self):
-        self.sensors: dict = dict()
+    # TODO: Заменить на создание списка объектов Sensor с омощью pydantic
+    def __init__(self, sensors: dict):
+        self.sensors: dict = sensors
+        self.__initialize_sensors_state({"status": "down", "liquid": 0})
 
-        self.sensors["3C71BF1AC9B4"] = {
-            "id": "3C71BF1AC9B4",
-            "desc": "3-й этаж, правый холл, рядом с кабинетом 3-21",
-            "plan": {"floor": 3, "coords": (0, 0)},
-        }
-
-        self.sensors["24DCC345DB74"] = {
-            "id": "24DCC345DB74",
-            "desc": "3-й этаж, центральный коридор, кабинет 3-1",
-            "plan": {"floor": 3, "coords": (0, 0)},
-        }
+    def __initialize_sensors_state(self, state: dict) -> None:
+        for sensor in self.sensors.values():
+            if "state" not in sensor:
+                sensor["state"] = dict()
+            sensor["state"].update(state)
 
     def get_sensors(self) -> dict:
         return self.sensors

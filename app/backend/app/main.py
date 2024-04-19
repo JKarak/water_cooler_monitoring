@@ -19,9 +19,9 @@ MQTT_TOPIC = "wcs/sensors/+/+"
 MQTT_REGEX = "wcs/sensors/([^/]+)/([^/]+)"
 
 
-sensors: SensorManager = SensorManager()
-connections: set[Callable] = set()
 settings = Settings()
+sensors: SensorManager = SensorManager(json.load(open(settings.sensors_list)))
+connections: set[Callable] = set()
 
 async def listen_mqtt(settings: Settings, sensors: SensorManager, connections):
     while True:
@@ -97,7 +97,7 @@ async def get_sensors_list() -> JSONResponse:
 
 @app.get("/sensors/map")
 async def get_sensors_map() -> FileResponse:
-    response = settings.data_map
+    response = settings.sensors_map
     return FileResponse(response)
 
 
