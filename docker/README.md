@@ -7,3 +7,9 @@ docker compose -f docker-compose.production.yml up -d
 ```
 docker compose up -d --force-recreate --build
 ```
+
+### Запуск контейнеров, относящихся к **mqtt** и **backend**
+
+```
+docker compose --profile mqtt --profile backend up
+```

@@ -1,5 +1,6 @@
 services:
   mqtt5:
+    #profiles: ["mqtt"]
     image: eclipse-mosquitto:latest
     container_name: mqtt5
     ports:
@@ -12,6 +13,7 @@ services:
     restart: unless-stopped
 
   mqttx-web:
+    #profiles: ["mqtt"]
     image: emqx/mqttx-web:latest
     container_name: mqttx-web
     ports:

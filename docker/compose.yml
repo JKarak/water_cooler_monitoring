@@ -4,6 +4,7 @@ include:
 
 services:
   backend:
+    #profiles: ["backend"]
     container_name: wcs_backend
     build: ../app/backend
     image: wcs/backend:latest
@@ -17,6 +18,7 @@ services:
       - mqtt5
 
   frontend:
+    #profiles: ["frontend"]
     container_name: wcs_frontend
     build: ../app/frontend
     image: wcs/frontend:latest
