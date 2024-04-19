@@ -12,11 +12,15 @@
                     <section class="sensors-map-panel">
                         <svg-img :src="svgMap" ref="sensors_map" class="sensors-map" />
                     </section>
-                    <section class="sensors-text-panel">
+                    <section class="sensors-list-panel">
+                        <h2>Список датчиков</h2>
                         <div class="sensors-list">
-                            <div v-for="sensor in sensors" :key="sensor.id" :id="sensor.id" class="sensor-item">
-                                {{ sensor.id }}: status={{ sensor.state.status }}, liquid={{ sensor.state.liquid }}
-                            </div>
+                            <ul>
+                                <li v-for="sensor in sensors" :key="sensor.id" :id="sensor.id" class="sensor-item" :class="{'down': (sensor.state.status == 'down'), 'up-empty': (sensor.state.status == 'up' && sensor.state.liquid == 0),  'up-full': (sensor.state.status == 'up' && sensor.state.liquid == 1)}">
+                                    <span class="sensor-desc">{{ truncate(sensor.desc) }}</span>
+                                    <br><span class="sensor-id">Датчик {{ sensor.id }}</span>
+                                </li>
+                            </ul>
                         </div>
                     </section>
                 </section>
@@ -147,6 +151,10 @@ export default {
                 return;
             }
         },
+        truncate(v) {
+            const newline = v.indexOf('\n')
+            return newline > 0 ? v.slice(0, newline) : v
+        },
     },
     created: function () {
         this.setupStream();
@@ -188,10 +196,54 @@ h1 {
     height: 80vh;
 }
 
-.sensors-text-panel {
+.sensors-list-panel {
     flex-shrink: 2;
     flex-basis: 30%;
     text-align: left;
+    padding-left: 20px;
+}
+
+.sensor-item {
+  line-height: 1.4em;
+  margin-bottom: 20px;
+}
+
+.sensors-list > ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.sensors-list > li {
+  list-style: none outside;
+}
+
+.sensor-item .sensor-desc {
+  font-weight: bold;
+}
+
+.sensor-item .sensor-id {
+  color: gray;
+}
+
+.sensors-list .sensor-item.down {
+  color: gray;
+  background: url('assets/sensor-down.png') no-repeat left top;
+  background-size: contain;
+  padding-left: 30px;
+}
+
+.sensors-list .sensor-item.up-full {
+  color: green;
+  background: url('assets/sensor-up-full.png') no-repeat left top;
+  background-size: contain;
+  padding-left: 30px;
+}
+
+.sensors-list .sensor-item.up-empty {
+  color: red;
+  background: url('assets/sensor-up-empty.png') no-repeat left top;
+  background-size: contain;
+  padding-left: 30px;
 }
 
 .sensors-map,
